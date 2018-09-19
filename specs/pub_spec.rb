@@ -3,6 +3,7 @@ require("minitest/rg")
 require_relative("../pub.rb")
 require_relative("../drink.rb")
 require_relative("../customer.rb")
+require_relative("../food.rb")
 
 class TestPub < MiniTest::Test
 
@@ -15,10 +16,12 @@ class TestPub < MiniTest::Test
     # Alex: of age, has money but too drunk
     @customer4 = Customer.new("Pete", 43, 2)
     # Alex: of age, sober but not enough money
-    @drink1 = Drink.new("Rum", 7.0, 3.70)
-    @drink2 = Drink.new("Whisky", 11.0, 3.90)
-    @drinks_array = [@drink1, @drink2]
-    @pub1 = Pub.new("Hanging Bat", 1000, @drinks_array)
+    @drink1 = Drink.new("Rum", 7, 3.70)
+    @drink2 = Drink.new("Whisky", 11, 3.90)
+
+    @food1 = Food.new("Burger", 5, 8.95)
+
+    @pub1 = Pub.new("Hanging Bat", 1000)
   end
 
   def test_has_name()
@@ -29,8 +32,18 @@ class TestPub < MiniTest::Test
     assert_equal(1000, @pub1.till())
   end
 
-  def test_has_drinks_array()
-    assert_equal(@drinks_array, @pub1.drinks())
+  def test_starts_with_no_drinks()
+    assert_equal([], @pub1.drinks())
+  end
+
+  def test_can_stock_up__drink()
+    @pub1.stock_up(@drink1, @drink2)
+    assert_equal([@drink1, @drink2],@pub1.drinks())
+  end
+
+  def test_can_stock_up__food()
+    @pub1.stock_up(@food1)
+    assert_equal([@food1],@pub1.food())
   end
 
   #check age
@@ -59,7 +72,6 @@ class TestPub < MiniTest::Test
     assert_equal(false, @pub1.can_afford?(@customer4, @drink1))
   end
 
-
   # test money trade
     # wallet less price
     # till plus price
@@ -71,7 +83,6 @@ class TestPub < MiniTest::Test
 
   # test change in drunkenness
     # drunkennes up by alc_level
-
   def test_increase_drunkenness
     @pub1.increase_drunkenness(@customer1, @drink1)
     assert_equal(7, @customer1.drunkenness())
@@ -99,7 +110,5 @@ class TestPub < MiniTest::Test
     @pub1.serve_drink(@customer4, @drink1)
     assert_equal(1000, @pub1.till)
   end
-
-
 
 end

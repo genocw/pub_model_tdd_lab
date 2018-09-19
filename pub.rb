@@ -1,12 +1,24 @@
 class Pub
 
   attr_reader :name
-  attr_accessor :drinks, :till
+  attr_accessor :till, :drinks, :food
 
-  def initialize(name, till, drinks)
+  def initialize(name, till)
     @name = name
-    @till = till
-    @drinks = drinks
+    @till = till.to_f
+    @drinks = []
+    @food = []
+  end
+
+  def stock_up(*new_stock)
+    for product in new_stock
+      if product.class == Drink
+        @drinks.push(product)
+      elsif
+        product.class == Food
+        @food.push(product)
+      end
+    end
   end
 
   def legal_age?(customer)
@@ -46,6 +58,5 @@ class Pub
       puts "Not today, pal..."
     end
   end
-
 
 end

@@ -8,7 +8,7 @@ class TestCustomer < MiniTest::Test
   def setup()
     @customer1 = Customer.new("John", 25, 100)
     @customer2 = Customer.new("Genna", 17, 2, 3)
-    @drink1 = Drink.new("Monkey Shoulder", 12.0, 3.80)
+    @drink1 = Drink.new("Monkey Shoulder", 12, 3.80)
   end
 
   # test name
@@ -35,7 +35,7 @@ class TestCustomer < MiniTest::Test
     assert_equal(3, @customer2.drunkenness)
   end
 
-
+  # test can afford
   def test_can_buy__enough_money()
     assert(@customer1.can_buy?(@drink1))
   end
@@ -43,9 +43,5 @@ class TestCustomer < MiniTest::Test
   def test_can_buy__not_enough_money()
     assert_equal(false, @customer2.can_buy?(@drink1))
   end
-
-
-
-
 
 end
